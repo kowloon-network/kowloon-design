@@ -21,4 +21,6 @@ Copy [`TEMPLATE.md`](TEMPLATE.md) for a new component. A contract has:
 
 ## Current state
 
-Only [`Button.md`](Button.md) exists so far, written as an audit of what the two existing `Button` components actually do today (they've already drifted from each other — see that file). The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
+[`Button.md`](Button.md) — fully resolved. [`Field.md`](Field.md) — audited, one real open decision (see below). The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
+
+Field's audit turned up something worth flagging as a pattern to watch for in future audits: **web has no shared `Field` component at all** — six files each independently hand-rolled their own local version, with real drift between them (different label opacity, different hint placement/styling, one with no hint support, one that isn't really the same component at all). Button at least started from one real shared component per platform; Field didn't even have that on web. Worth checking whether other components have this same "web never actually extracted a shared component" gap before assuming Button's drift-between-two-things pattern is the only failure mode.

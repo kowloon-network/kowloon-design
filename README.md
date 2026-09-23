@@ -20,7 +20,8 @@ tokens/
 components/
   README.md          — contract format + how to use it
   TEMPLATE.md         — blank contract to copy for a new component
-  Button.md           — first worked example, fully resolved contract
+  Button.md           — fully resolved contract
+  Field.md             — audited; one open decision (underline vs. filled-box input)
 reference/
   style-guide.html   — generated snapshot: the full palette + Button contract rendered live, self-contained (open directly in a browser, no build step)
 ```
@@ -41,5 +42,6 @@ Clone it next to the other repos: `~/Projects/kowloon/design`.
 
 Every decision opened in `IDEOLOGY.md` §10 is resolved (palette, chrome/content typography, icons, Button contract) — see `reference/style-guide.html` for the current state rendered live.
 
+- **`Field.md`**: whether web's underline input and mobile's filled-box input converge on one metaphor or stay a documented, intentional platform difference. Not yet decided.
 - Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction.
-- The component library itself: only Button is specced so far. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract.
+- The component library itself: Button and Field are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — and per `components/README.md`, check each one for whether web even has a shared component at all before assuming the drift looks like Button's.
