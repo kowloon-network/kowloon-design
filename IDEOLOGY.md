@@ -10,7 +10,7 @@ Where this doc makes an actual new call rather than just writing down what's alr
 
 **Why this reference, specifically, for this product:** Kowloon is a federated network built by and for people who read and write for a living, explicitly positioned against the interchangeable card-in-a-box feed aesthetic every other social app converges on. Restraint here isn't just taste — it's the same instinct as [[feedback_human_value_over_profit]] and [[feedback_no_follow_notifications]]: this app doesn't want to look or feel like it's optimizing you. A magazine doesn't pulse a red badge at you to get you to open it. Neither should this.
 
-**The organizing principle that makes the type/color/spacing rules below cohere:** *chrome is quiet, content is confident.* Navigation, labels, buttons, and UI copy stay small, uppercase, letter-spaced, and restrained — they get out of the way. Post titles, article headlines, and body copy get the serif, the size, the weight, the actual presence. The app's job is to be a good frame for what people wrote, not to compete with it. This is already how it works — the login screen's own "Sign in to your account" heading is bold sans UI chrome, while a post title like "The Last American Christian" or "Günther Anders, the Philosopher at the End of the World" is set in the serif reading face. Nobody wrote this rule down before; it's real and it should stay real.
+**The organizing principle that makes the type/color/spacing rules below cohere:** *chrome is quiet, content is the reader's own.* Navigation, labels, buttons, and UI copy stay small, uppercase, letter-spaced, restrained, and fixed — one typeface (Inter), the same for everyone, that gets out of the way. Post titles and body copy get the size, the weight, the actual presence — and, as of the type-system decision in §5, they're set in whatever typeface the *reader* has chosen for their own reading, not a typeface the platform imposes. The app's job is to be a good, quiet frame for what people wrote and how each reader wants to read it — not to compete with either. The login screen's own "Sign in to your account" heading is fixed chrome; a post title like "The Last American Christian" is not chrome at all, it's the first line of what the reader is here to read.
 
 ## 2. Non-negotiables
 
@@ -48,21 +48,12 @@ The palette (`tokens/palette.json`) is already good and shouldn't change in hue 
 
 ## 5. Type system
 
-**Content vs. chrome is two separate typography systems, not one scale.** Titles/headlines are platform-typeset, fixed, same for every reader — they use the reading-chrome serif below. Body prose (post/article/page bodies, and replies) is reader-controlled: whichever of five fonts the reader personally selected, which may not be a serif at all (Inter and OpenDyslexic are both sans options). Full boundary — including the open question of whether this should extend to the compose editor, and the recommendation that web get this feature too — is in `tokens/typography.md`, not restated here.
+**RESOLVED 2026-09-23.** Content and chrome are two separate typography systems, not one scale, and each is now down to as few faces as it can be:
 
-**Chrome roles — currently drifted, needs a decision:**
+- **Chrome — one unified face, Inter, both platforms.** Nav, labels, buttons, settings screens, bylines, timestamps, metadata. Distinguish weight (display-scale headings vs. small UI labels) by size/weight/tracking, not by swapping typefaces. This drops IBM Plex Sans from web and Lora-as-chrome from mobile — both converge on the one font that was already an asset on both platforms.
+- **Content — reader-controlled, both platforms.** Post/article/page titles *and* bodies, plus replies, plus the compose editor while writing them: all set in whichever of five fonts (Inter, Atkinson Hyperlegible, Lora, Merriweather, OpenDyslexic) the individual reader has chosen — title and body share the family, differing only by size/weight, the way a printed headline and its running text do. Confirmed 2026-09-23 against a live visual comparison (real post, all five fonts, real chrome) — see `tokens/typography.md`. This is a change from an earlier draft of this doc that gave titles a fixed platform serif — reconsidered because a title is authored content the reader is about to read, not something the platform itself is saying.
 
-| Role | Web today | Mobile today |
-|---|---|---|
-| Display (masthead, big UI headings) | Inter | *(no distinct role)* |
-| UI (nav, labels, buttons, body chrome) | IBM Plex Sans | Inter |
-| Reading (article/post serif) | Source Serif 4 | Lora |
-
-**OPEN — needs sign-off, recommendation below:** Converge both platforms on:
-- **Display + UI: Inter**, one family for both roles (distinguish display from ui by weight/size/tracking, not by swapping typefaces). Inter is already an asset on both platforms today, so this is a pure simplification — it drops IBM Plex Sans from web entirely and adds a "display" *treatment* (not a new font) to mobile.
-- **Reading: Source Serif 4**, on both platforms, for chrome/headline use (not to be confused with mobile's separate user-selectable body-reading fonts, which stay as-is). This means bundling one new font file into mobile — a small, one-time asset cost — in exchange for the more deliberate, already-praised typeface ("beautiful reading type" per the original web design brief) instead of Lora, which was never a considered choice, just what was convenient.
-
-Net effect: one fewer typeface family in the system overall (three total instead of four), and both platforms end up type-identical for the first time.
+There is no longer a "reading-chrome" role distinct from either of the above — the three/four-typeface system that existed across both platforms collapses to two roles total. Full detail, including the compose-editor and web-parity decisions, is in `tokens/typography.md`.
 
 ## 6. Iconography
 
@@ -85,8 +76,6 @@ Interaction patterns, navigation structure, information architecture, and UI cop
 ## 10. Consolidated open decisions
 
 1. Give `accent` its own hex, distinct from `error`. (§4)
-2. Converge chrome typography on Inter (display+ui) / Source Serif 4 (reading), both platforms. (§5)
-3. Standardize icons on lucide-react / lucide-react-native, retire FontAwesome from web. (§6)
-4. Resolve `Button`'s variant/state/size drift per `components/Button.md` — recommend the *union*: keep `accent` (once §4 is resolved), add `loading` to web, add a `size` scale to mobile. Nothing gets removed, the contract gets completed.
-5. Bring web up to parity with mobile's reader-controlled typography system (same fonts, same prefs, same boundary rules). (`tokens/typography.md`)
-6. Decide whether reader-controlled font extends to the compose editor while writing. (`tokens/typography.md`)
+2. Standardize icons on lucide-react / lucide-react-native, retire FontAwesome from web. (§6)
+3. Resolve `Button`'s variant/state/size drift per `components/Button.md` — recommend the *union*: keep `accent` (once #1 is resolved), add `loading` to web, add a `size` scale to mobile. Nothing gets removed, the contract gets completed.
+4. ~~Chrome typography~~ / ~~reader-controlled typography scope~~ / ~~web parity~~ / ~~titles in reader's font~~ — **RESOLVED**, including the visual check, see §5 and `tokens/typography.md`. Nothing left open in the type system.

@@ -1,38 +1,33 @@
 # Typography tokens
 
-Two separate systems exist today: **platform-controlled chrome typography** (fixed, same for every reader) and **reader-controlled reading typography** (a per-reader accessibility preference). They're documented separately below, along with the boundary between them.
+Two separate systems: **chrome typography** (fixed, platform-controlled, same for every reader) and **content typography** (reader-controlled — an accessibility preference the reader sets once and carries everywhere they read).
 
-## Chrome typography (UI text — labels, nav, buttons, headings)
+## Chrome typography — unified, one face
 
-| Role | Web (`kowloon-frontend`) | Mobile (`kowloon-mobile`) |
-|---|---|---|
-| Display | Inter | *(no separate display font)* |
-| UI | IBM Plex Sans | Inter |
-| Reading | Source Serif 4 | Lora |
+**RESOLVED 2026-09-23:** all UI chrome — nav, buttons, labels, settings headings, bylines, timestamps, metadata — converges on **Inter**, one family, distinguished by weight/size/tracking rather than by swapping typefaces. This replaces the earlier three-role drift (web: Inter/IBM Plex Sans/Source Serif 4; mobile: Inter/Lora) and also replaces an earlier draft of this doc that proposed keeping a separate fixed serif ("reading-chrome") role for titles — see below, that role no longer exists.
 
-Web exposes these as `font-display` / `font-ui` / `font-reading` Tailwind utilities. Mobile exposes `font-ui` / `font-reading` the same way via NativeWind, but mapped to different actual fonts, and has no `font-display` token at all.
+Web currently exposes `font-display`/`font-ui`/`font-reading` as three Tailwind roles; mobile exposes `font-ui`/`font-reading` via NativeWind. Both collapse to a single chrome role once this ships — the multi-role tokens can go away rather than all pointing at the same font.
 
-**This is unreconciled drift**, not an intentional platform difference — nobody decided mobile should use Lora where web uses Source Serif 4. Worth resolving as part of the redesign pass.
+## Content typography — reader-controlled
 
-## Reading typography — reader-controlled (mobile only, so far)
-
-Mobile has a separate, more elaborate system for actual prose reading surfaces — modeled on Kindle-style reading settings, source of truth at `kowloon-mobile/src/lib/typography.js`:
+Modeled on Kindle-style reading settings, currently mobile-only, source of truth at `kowloon-mobile/src/lib/typography.js`:
 
 - Five bundled fonts: Inter, Atkinson Hyperlegible, Lora, Merriweather, OpenDyslexic (Regular/Bold/Italic each)
 - Four stepped preferences: `fontFamily`, `fontSize` (xs–xl), `lineSpacing` (compact/normal/relaxed), `columnWidth` (narrow/normal/wide)
-- Account-level, synced to `user.prefs.typography` on the server — **this is a per-reader preference, applied to what that reader sees, never something an author can impose on other people's view of their post.** Same model as a Kindle: your font choice changes the book's running text on your device, not the book as the author published it.
+- Account-level, synced to `user.prefs.typography` on the server — a per-reader preference applied to what that reader sees, never something an author can impose on other people's view of their post. Your font choice changes the book's running text on your device, not the book as the author published it.
 
-### Where the reader's font choice applies, and where it doesn't
+**RESOLVED 2026-09-23**, confirmed against a live visual comparison: post/article/page **titles are also reader-controlled**, in the same family as the body, differentiated from body text by size/weight only (the way a real headline and its running text share a typeface family in print). This is a change from an earlier draft that gave titles a fixed platform serif — reconsidered because a title is authored content the reader is about to read, same as the body under it, not platform chrome.
 
-This is the actual Kindle-style boundary, and it's a deliberate line, not just "wherever it currently happens to be wired up":
+**Applies (reader's chosen font, size/weight varies by role):**
+- Post, Article, and Page titles *and* body text — same family, title bigger/bolder
+- Reply body text — deliberately included, not just top-level posts. Two of the five bundled fonts (OpenDyslexic, Atkinson Hyperlegible) exist for real reading-disability accommodation, not taste; restricting them to top-level posts only would leave a reader who needs one hitting unreadable text in every reply thread.
+- **RESOLVED 2026-09-23:** the compose editor, while writing that same kind of content — confirmed rather than left open. Rendering the composer in a different font than what the reader will see when they read it back was the jarring-mismatch concern; extending the reader's font here avoids that.
 
-**Applies (reader's chosen font):**
-- Post, Article, and Page body text
-- Reply body text — included deliberately, not just "body text of top-level posts." Two of the five bundled fonts (OpenDyslexic, Atkinson Hyperlegible) exist for real reading-disability accommodation, not taste; if a reader picked one of those, restricting it to top-level posts only would leave them hitting unreadable text in every reply thread, half-defeating the accessibility purpose.
-- **Open question, not yet decided:** should the reader's font also apply to the *compose editor* while they're writing that same kind of content? Kindle has no authoring surface, so the analogy doesn't extend cleanly here. Leaning toward yes — the composer is a preview-as-you-type reading surface, and rendering it in the fixed platform font while it's about to be read back in the reader's own chosen font is a jarring mismatch — but this needs an explicit decision, not an assumption.
+**Does not apply (fixed chrome — Inter):**
+- Nav, labels, buttons, settings screens, bylines, timestamps, metadata ("3 replies," etc.), empty states — anything the platform itself authored rather than the post's author
 
-**Does not apply (fixed platform typography, same for every reader):**
-- Post/article/page *titles* — these are platform-typeset headlines, not the prose itself (see the login-vs-post-title distinction in `IDEOLOGY.md` §1)
-- All UI chrome: nav, labels, buttons, bylines, timestamps, metadata ("3 replies", etc.), settings screens, empty states
+**RESOLVED 2026-09-23:** web gets this feature too — same five fonts, same four preferences, same `user.prefs.typography`, same boundary above. Not building it as a mobile-only accommodation was an accident of build order, not a decision.
 
-**OPEN — needs sign-off:** web has no equivalent of this system at all today. That's very likely an accident of build order (mobile shipped it first), not a real product decision — the accessibility motivation doesn't care what platform someone's reading on. Recommend web get the identical feature: same five fonts, same four preferences, same `user.prefs.typography`, same boundary rules above.
+## Visual check
+
+Confirmed 2026-09-23 — Josh reviewed a live comparison (the real "The Last American Christian" post, title and body rendered in all five candidate fonts, real chrome around it) and approved the approach as a whole. No single font was chosen as a default; the point confirmed was the *mechanism* (reader-controlled title+body, same family, size/weight differentiation) — all five fonts remain available reader choices, same as today on mobile.
