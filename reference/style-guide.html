@@ -1,11 +1,12 @@
 <!--
-  Generated snapshot, 2026-09-23. Built from tokens/palette.json and
-  components/Button.md as they existed at that commit -- not hand-maintained,
-  and not auto-regenerated on token changes. If the palette or Button contract
-  changes later, this file will go stale until someone rebuilds it (same
-  approach: read palette.json, inject the light/dark values and the real
-  Inter font files as base64 into the template, done via Claude this session --
-  ask for a regenerate rather than hand-editing the embedded data below).
+  Generated snapshot, 2026-09-23 (regenerated same day: accent, field retirement,
+  and the Fields section were added after the first version). Built from
+  tokens/palette.json, components/Button.md, and components/Field.md as they
+  existed at that commit -- not hand-maintained, and not auto-regenerated on
+  token changes. If the palette or a contract changes later, this file will go
+  stale until someone rebuilds it (read the tokens, inject light/dark values
+  and the real Inter font files as base64 into the template -- ask for a
+  regenerate rather than hand-editing the embedded data below).
 -->
 <title>Kowloon Style Guide</title>
 <style>
@@ -98,6 +99,19 @@
   @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  /* ---- fields ---- */
+  .field-demo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .field-demo { display: flex; flex-direction: column; }
+  .fd-input {
+    width: 100%; font-family: 'Inter', sans-serif; font-size: .9375rem; padding: .5rem 0;
+    border: none; border-bottom: 2px solid var(--rule); background: transparent; color: var(--text); box-sizing: border-box;
+  }
+  .fd-input::placeholder { color: var(--text-faint); }
+  .fd-input.fd-focus { border-bottom-color: var(--k-primary); }
+  .fd-input.fd-error { border-bottom-color: var(--k-error); }
+  .fd-caption { font-size: .6875rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); margin: .6rem 0 0; }
+  .fd-msg { color: var(--k-error); font-size: .8125rem; margin: .5rem 0 0; }
+
   /* ---- tags ---- */
   .tag-row { display: flex; flex-wrap: wrap; gap: .75rem; }
   .tag { font-weight: 700; font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; padding: .35rem .65rem; }
@@ -108,8 +122,8 @@
   .example-label { font-weight: 700; font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 1rem; }
 
   .field-error input {
-    width: 100%; font-family: 'Inter', sans-serif; font-size: .9375rem; padding: .6rem .75rem;
-    border: 1px solid var(--k-error); background: var(--bg); color: var(--text); box-sizing: border-box;
+    width: 100%; font-family: 'Inter', sans-serif; font-size: .9375rem; padding: .5rem 0;
+    border: none; border-bottom: 2px solid var(--k-error); background: transparent; color: var(--text); box-sizing: border-box;
   }
   .field-error .msg { color: var(--k-error); font-size: .8125rem; margin-top: .5rem; }
   .field-label { font-weight: 700; font-size: .6875rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: .5rem; }
@@ -127,6 +141,7 @@
 
   @media (max-width: 720px) {
     .example-row { grid-template-columns: 1fr; }
+    .field-demo-row { grid-template-columns: 1fr; gap: 1.5rem; }
     .btn-row .row-label { width: 100%; }
   }
 </style>
@@ -143,6 +158,7 @@
     <ul>
       <li><a href="#palette">Palette</a></li>
       <li><a href="#buttons">Buttons</a></li>
+      <li><a href="#fields">Fields</a></li>
       <li><a href="#tags">Tags</a></li>
       <li><a href="#context">In context</a></li>
     </ul>
@@ -166,9 +182,34 @@
     <div class="btn-matrix" id="button-matrix"></div>
   </section>
 
-  <section class="block" id="tags">
+  <section class="block" id="fields">
     <div class="block-head">
       <p class="block-eyebrow">03</p>
+      <h2>Fields</h2>
+      <p class="block-desc">Underline on both platforms, per the resolved Field contract &mdash; no fill color, since the <code>field</code> token was retired once nothing needed it. Default, focus, and error border states.</p>
+    </div>
+    <div class="field-demo-row">
+      <div class="field-demo">
+        <label class="field-label">Kowloon ID</label>
+        <input class="fd-input" type="text" placeholder="@you@example.com">
+        <p class="fd-caption">Default</p>
+      </div>
+      <div class="field-demo">
+        <label class="field-label">Kowloon ID</label>
+        <input class="fd-input fd-focus" type="text" value="@kowloonclaude@kwln.social">
+        <p class="fd-caption">Focus</p>
+      </div>
+      <div class="field-demo">
+        <label class="field-label">Password</label>
+        <input class="fd-input fd-error" type="password" value="••••••">
+        <p class="fd-msg">That username or password is incorrect.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="tags">
+    <div class="block-head">
+      <p class="block-eyebrow">04</p>
       <h2>Content-type tags</h2>
       <p class="block-desc">The one place color is allowed to be purely decorative-but-meaningful &mdash; wayfinding for post type, like a magazine's section colors.</p>
     </div>
@@ -177,7 +218,7 @@
 
   <section class="block" id="context">
     <div class="block-head">
-      <p class="block-eyebrow">04</p>
+      <p class="block-eyebrow">05</p>
       <h2>In context</h2>
       <p class="block-desc">Two real usage patterns: <code>error</code> on a form field, and <code>accent</code> as a sparing, high-emphasis badge &mdash; the actual scoped use case from IDEOLOGY.md &sect;4, not a general-purpose color.</p>
     </div>
@@ -203,8 +244,8 @@
 </div>
 
 <script>
-const LIGHT = {"header": "#002fa7", "header-content": "#ffffff", "base-100": "#ffffff", "base-200": "#f4f4f4", "base-300": "#e7e7e7", "base-content": "#1a1a20", "field": "#fcfbf7", "primary": "#5588b1", "primary-content": "#f4f5f7", "secondary": "#393b7a", "secondary-content": "#faf4e8", "accent": "#e75423", "accent-content": "#1a1a20", "neutral": "#1a1a20", "neutral-content": "#f4f4f4", "info": "#3c8db8", "info-content": "#f0f6fa", "success": "#2f9956", "success-content": "#f0f8f2", "warning": "#d9b038", "warning-content": "#1a1a20", "error": "#c0394a", "error-content": "#f7e8e8", "post-note": "#b76c00", "post-article": "#006893", "post-media": "#009084", "post-link": "#417843", "post-event": "#cc272e"};
-const DARK = {"header": "#002fa7", "header-content": "#ffffff", "base-100": "#16171d", "base-200": "#1f2129", "base-300": "#2c2f3a", "base-content": "#f4f4f4", "field": "#1f2129", "primary": "#5588b1", "primary-content": "#0e1116", "secondary": "#393b7a", "secondary-content": "#faf4e8", "accent": "#e8987d", "accent-content": "#1a1a20", "neutral": "#1f2129", "neutral-content": "#f4f4f4", "info": "#3c8db8", "info-content": "#f0f6fa", "success": "#2f9956", "success-content": "#f0f8f2", "warning": "#d9b038", "warning-content": "#1a1a20", "error": "#c0394a", "error-content": "#f7e8e8", "post-note": "#e8920a", "post-article": "#2ab4e8", "post-media": "#00c4ae", "post-link": "#62c278", "post-event": "#ee5566"};
+const LIGHT = {"header": "#002fa7", "header-content": "#ffffff", "base-100": "#ffffff", "base-200": "#f4f4f4", "base-300": "#e7e7e7", "base-content": "#1a1a20", "primary": "#5588b1", "primary-content": "#f4f5f7", "secondary": "#393b7a", "secondary-content": "#faf4e8", "accent": "#e75423", "accent-content": "#1a1a20", "neutral": "#1a1a20", "neutral-content": "#f4f4f4", "info": "#3c8db8", "info-content": "#f0f6fa", "success": "#2f9956", "success-content": "#f0f8f2", "warning": "#d9b038", "warning-content": "#1a1a20", "error": "#c0394a", "error-content": "#f7e8e8", "post-note": "#b76c00", "post-article": "#006893", "post-media": "#009084", "post-link": "#417843", "post-event": "#cc272e"};
+const DARK = {"header": "#002fa7", "header-content": "#ffffff", "base-100": "#16171d", "base-200": "#1f2129", "base-300": "#2c2f3a", "base-content": "#f4f4f4", "primary": "#5588b1", "primary-content": "#0e1116", "secondary": "#393b7a", "secondary-content": "#faf4e8", "accent": "#e8987d", "accent-content": "#1a1a20", "neutral": "#1f2129", "neutral-content": "#f4f4f4", "info": "#3c8db8", "info-content": "#f0f6fa", "success": "#2f9956", "success-content": "#f0f8f2", "warning": "#d9b038", "warning-content": "#1a1a20", "error": "#c0394a", "error-content": "#f7e8e8", "post-note": "#e8920a", "post-article": "#2ab4e8", "post-media": "#00c4ae", "post-link": "#62c278", "post-event": "#ee5566"};
 
 const DESCRIPTIONS = {
   header: 'Fixed brand color — masthead/header bar only, not a general accent',
@@ -219,7 +260,6 @@ const DESCRIPTIONS = {
   'base-200': 'Slightly recessed surface',
   'base-300': 'Borders, dividers',
   'base-content': 'Default body text',
-  field: 'Input field background',
   neutral: 'Structural neutral',
   'neutral-content': 'Text on neutral',
   info: 'System feedback only',
@@ -239,7 +279,7 @@ const DESCRIPTIONS = {
 
 const GROUPS = [
   { label: 'Brand', keys: ['header', 'header-content', 'primary', 'primary-content', 'secondary', 'secondary-content', 'accent', 'accent-content'] },
-  { label: 'Structure', keys: ['base-100', 'base-200', 'base-300', 'base-content', 'field', 'neutral', 'neutral-content'] },
+  { label: 'Structure', keys: ['base-100', 'base-200', 'base-300', 'base-content', 'neutral', 'neutral-content'] },
   { label: 'Semantic (system feedback only)', keys: ['info', 'info-content', 'success', 'success-content', 'warning', 'warning-content', 'error', 'error-content'] },
   { label: 'Content-type wayfinding', keys: ['post-note', 'post-article', 'post-media', 'post-link', 'post-event'] },
 ];

@@ -17,27 +17,24 @@ Button existed as one real shared component per platform that had drifted apart.
 
 Mobile has one real, shared `kowloon-mobile/src/components/ui/Field.jsx`, used everywhere via the login screen and elsewhere. So the asymmetry itself is the finding: mobile got this right, web didn't.
 
-## A real structural difference, not just a values question
+## RESOLVED 2026-09-23: underline for both platforms
 
-This is a bigger decision than Button's accent-variant question — the two platforms use different **input metaphors**, not just different numbers:
+Josh's call, citing Material Design's underline text fields as working precedent on both desktop and touch: **both platforms converge on web's existing underline treatment.** No fill color at all — `bg-transparent`, a `base-300` bottom border by default, `primary` on focus, `error` on error.
 
-- **Web:** underline only — `bg-transparent border-b-2 border-base-300 focus:border-primary`. Like a blank on a printed form.
-- **Mobile:** filled box — `bg-field` (solid cream), no border at all currently (see bug below). A clearer touch target.
+This also retired the `field` (cream) palette token entirely — it existed only to fill inputs like mobile's Field, and once Field has no fill, `field` had no remaining purpose. It turned out to be used across 40+ mobile files, not just `Field.jsx` (admin forms, bookmark/circle/group composers, replies, the search bar, drawer, a couple of buttons). Per Josh: for now, every former `field` usage should just resolve to `base-100` — the same as the surrounding background, i.e. no visible distinction — rather than trying to individually decide right now which ones were really "an input" versus "a button" versus "a recessed row." That's a deliberate placeholder, not a final per-case decision; revisit each of those 40+ sites when they're actually touched during implementation, not in a batch right now.
 
-**OPEN — needs Josh's call:** converge on one metaphor for both platforms, or keep this as a documented, intentional platform difference (underline suits a wide desktop form; a filled box gives a bigger, clearer tap target on a small touch screen)? Recommend the latter — this feels more like "type is set differently in a magazine vs. a paperback" than actual drift, but it should be a decision either way, not an accident.
+## Bug found while auditing mobile's Field.jsx (fixed by this resolution)
 
-## Bug found while auditing mobile's Field.jsx
-
-The component's own comment says: *"2px bottom [border] that shifts to primary on focus is future work — for now we render a 2px box on all sides for clarity."* The actual `className` has **no border classes at all** — `bg-field px-3 py-3 font-ui text-base text-base-content`. It currently renders with zero visible outline, relying only on the cream `bg-field` fill differing from whatever's behind it. There's also no focus-state style change, and the `error` prop only reddens the message text below, not the input itself. Treat all three as real bugs to fix during implementation, not as intentional restraint.
+The component's own comment said: *"2px bottom [border] that shifts to primary on focus is future work — for now we render a 2px box on all sides for clarity."* The actual `className` had **no border classes at all** — it rendered with zero visible outline, relying only on the cream `bg-field` fill differing from whatever was behind it, with no focus-state change and an `error` prop that only reddened the message text, not the input. The underline resolution above fixes all three by construction — there's no separate "add a border" bug left once the input is underline-only with real border-color states for default/focus/error.
 
 ## States
 
-| State | Web today | Mobile today | Contract |
-|---|---|---|---|
-| default | ✓ | ✓ (no visible border — bug above) | ✓ both, with mobile's border bug fixed |
-| focus | ✓ (`focus:border-primary`) | ✗ (no focus style at all) | ✓ both |
-| error | ✗ (no per-field state; only a form-wide banner exists) | partial (message text only, no input outline change) | ✓ both — input itself should show `error` color on its border/underline, not just the message below |
-| disabled | not audited on either platform | not audited | needs checking once implementation starts |
+| State | Contract |
+|---|---|
+| default | `border-b-2 border-base-300`, transparent fill |
+| focus | border color to `primary` |
+| error | border color to `error`, plus message text below (web today has no per-field error state at all, only a form-wide banner — this adds one; mobile today only reddens the message, not the input — this fixes that) |
+| disabled | not audited on either platform yet — needs checking once implementation starts |
 
 ## Props (proposed contract, reconciling the six web variants down to one)
 
@@ -54,5 +51,5 @@ The component's own comment says: *"2px bottom [border] that shifts to primary o
 
 ## Tokens used
 
-- Palette: `base-300` (web underline default), `primary` (focus), `error`, `field` (mobile fill), `base-content`
-- Typography: `font-ui`, label tracking should match Button's reconciled `0.16em` rather than the four different values currently scattered across the six web files (`tracking-widest` in most, no explicit value overridden in others)
+- Palette: `base-300` (default underline), `primary` (focus), `error`, `base-content` — no fill token; `field` is retired
+- Typography: `font-ui`, label tracking `0.16em` (matches Button's reconciled value) rather than the four different values currently scattered across the six web files (`tracking-widest` in most, no explicit value overridden in others)

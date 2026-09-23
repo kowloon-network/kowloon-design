@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source of truth for the Kowloon color palette, shared by the web frontend and the mobile app. Edit hex values here; the web frontend generates its CSS variables from this file (scripts/generate-theme-css.mjs) and the mobile app reads it directly in tailwind.config.js. Every token has a light and a dark value; tokens that don't change between modes simply repeat. accent was resolved 2026-09-23 (see ../IDEOLOGY.md §4) -- it used to be identical to error (#c0394a in both modes); it's now 'vermillion', verified distinct from both error and post-note under simulated protanopia/deuteranopia, with a desaturated dark-mode variant re-verified separately rather than assumed. accent-content is dark text in both modes -- vermillion isn't dark enough for light text to clear WCAG AA at normal-text size.",
+  "_comment": "Single source of truth for the Kowloon color palette, shared by the web frontend and the mobile app. Edit hex values here; the web frontend generates its CSS variables from this file (scripts/generate-theme-css.mjs) and the mobile app reads it directly in tailwind.config.js. Every token has a light and a dark value; tokens that don't change between modes simply repeat. accent was resolved 2026-09-23 (see ../IDEOLOGY.md §4) -- it used to be identical to error (#c0394a in both modes); it's now 'vermillion', verified distinct from both error and post-note under simulated protanopia/deuteranopia, with a desaturated dark-mode variant re-verified separately rather than assumed. accent-content is dark text in both modes -- vermillion isn't dark enough for light text to clear WCAG AA at normal-text size. 'field' was RETIRED 2026-09-23 (see ../components/Field.md) -- it served no purpose once Field converged on an underline treatment for both platforms (no fill color at all). It was used across 40+ mobile files, not just Field itself, for a mix of real inputs, buttons, and row/container backgrounds; for now every former field usage should just use base-100 (i.e. no visual distinction from the surrounding background) rather than being individually reassigned -- that's a deliberate placeholder, not a final per-case decision, deferred to actual implementation time.",
   "light": {
     "header": "#002fa7",
     "header-content": "#ffffff",
@@ -7,7 +7,6 @@
     "base-200": "#f4f4f4",
     "base-300": "#e7e7e7",
     "base-content": "#1a1a20",
-    "field": "#fcfbf7",
     "primary": "#5588b1",
     "primary-content": "#f4f5f7",
     "secondary": "#393b7a",
@@ -37,7 +36,6 @@
     "base-200": "#1f2129",
     "base-300": "#2c2f3a",
     "base-content": "#f4f4f4",
-    "field": "#1f2129",
     "primary": "#5588b1",
     "primary-content": "#0e1116",
     "secondary": "#393b7a",
