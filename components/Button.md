@@ -10,7 +10,7 @@ Originally written as an audit of the two components as they exist today (`kowlo
 |---|---|---|---|
 | `primary` | ✓ | ✓ | ✓ |
 | `secondary` | ✓ | ✓ | ✓ |
-| `accent` | ✓ | ✗ | ✓ both — add to mobile once `accent`'s own hex is finalized (IDEOLOGY.md §4, in review) |
+| `accent` | ✓ | ✗ | ✓ both — add to mobile now that `accent` has a resolved value (`#e75423`/`#e8987d`, IDEOLOGY.md §4) |
 | `ghost` | ✓ | ✓ | ✓ |
 
 ## States
@@ -39,5 +39,5 @@ Originally written as an audit of the two components as they exist today (`kowlo
 
 ## Tokens used
 
-- Palette: `primary`/`primary-content`, `secondary`/`secondary-content`, `accent`/`accent-content` (both platforms, once §4 lands), `base-content`, `base-200`
+- Palette: `primary`/`primary-content`, `secondary`/`secondary-content`, `accent`/`accent-content`, `base-content`, `base-200`
 - Typography: `font-ui` (Inter, per the resolved chrome type system), uppercase, **letter-spacing reconciled to `0.16em`** on both platforms — web's `tracking-widest` (0.1em) and mobile's `tracking-[0.18em]` were two different arbitrary values; this splits between them rather than picking either platform's number by default.

@@ -39,12 +39,12 @@ The palette (`tokens/palette.json`) is already good and shouldn't change in hue 
 | `header` (deep blue) | The one fixed brand color — masthead/header bar only. Not a general-purpose accent. |
 | `primary` (steel blue) | Default interactive color — primary buttons, links, active states. |
 | `secondary` (deep navy-plum) | Secondary emphasis — secondary buttons, the "Blue Note" plum accent. |
-| `accent` (rose red) | Sparing, high-emphasis-only decoration — **see open issue below, this role currently collides with `error`.** |
+| `accent` (vermillion) | Sparing, high-emphasis-only decoration — bold and saturated on purpose, since "high-emphasis" is the point. |
 | `neutral` / `base-*` | Structure: backgrounds, borders, body text. The vast majority of every screen should be these, by area. |
 | `info`/`success`/`warning`/`error` | System feedback only. Never reused for anything else. |
 | `post-note`/`post-article`/`post-media`/`post-link`/`post-event` | Content-type wayfinding — the one place color is allowed to be purely decorative-but-meaningful, like a magazine's section colors. Keep this the *only* place arbitrary-feeling color coding happens. |
 
-**OPEN — needs sign-off: `accent` (`#c0394a`) and `error` (`#c0394a`) are the exact same hex value.** That means anything styled as "accent" for emphasis is visually indistinguishable from an error state — a real correctness risk, not just a taste question (imagine a highlighted/featured post card reading as if something broke). Recommend giving `accent` its own distinct value, separate from `error`, before it's used anywhere that could be confused with a system-error signal.
+**RESOLVED 2026-09-23: `accent` is now `#e75423` (light) / `#e8987d` (dark) — "vermillion."** It used to be `#c0394a`, byte-identical to `error`, meaning anything styled as accent for emphasis was visually indistinguishable from an error state (imagine a featured post card reading as if something broke). This wasn't picked by eye — five candidates (rust, terracotta, vermillion, coral, rose) were simulated under protanopia, deuteranopia, and tritanopia and measured (CIE ΔE76) against both `error` and `post-note`, since a rust/orange in that family risks colliding with both under red-green colorblindness specifically. Vermillion cleared both by a wide margin in every simulated condition (ΔE 20-24, well past the ~10 threshold where colors become hard to tell apart) — the original aesthetic favorite, rust, did not (ΔE 3.8-7 against error under deuteranopia/protanopia, i.e. genuinely hard to distinguish for a meaningful share of readers). `accent-content` is dark text (`#1a1a20`) in both modes — vermillion isn't dark enough for light text to clear WCAG AA at normal-text size (light mode: 3.3:1 with light text vs. 4.7:1 with dark; dark mode: 7.6:1 with dark text).
 
 ## 5. Type system
 
@@ -77,7 +77,11 @@ Interaction patterns, navigation structure, information architecture, and UI cop
 
 ## 10. Consolidated open decisions
 
-1. **Only real open item:** give `accent` its own hex, distinct from `error`. Three candidates under review (see visual comparison, shared 2026-09-23). (§4)
+Every decision opened by this document is now resolved:
+
+1. ~~Accent color~~ — **RESOLVED**, `#e75423` / `#e8987d`, verified against colorblind simulation. (§4)
 2. ~~Icon library~~ — **RESOLVED**, lucide-react/lucide-react-native, both platforms. (§6)
-3. ~~Button contract~~ — **RESOLVED** (union of both platforms' capabilities; `accent` variant blocked on #1 above). (`components/Button.md`)
+3. ~~Button contract~~ — **RESOLVED**, union of both platforms' capabilities, `accent` variant unblocked now that #1 has a value. (`components/Button.md`)
 4. ~~Type system~~ — **RESOLVED**, see §5 and `tokens/typography.md`.
+
+Nothing left open in the visual language. Next real milestone is speccing components beyond Button, and — once the component library is far enough along, per Josh's instruction — actually wiring `kowloon-design` into `client`/`frontend`/`mobile`.
