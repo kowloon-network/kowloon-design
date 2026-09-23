@@ -17,7 +17,7 @@ Given this is the second time in two components that web turns out to have *zero
 
 The component's own comment says *"Editorial display heading — **serif**, tight tracking"* — but the actual implementation renders `font-ui` (sans), not `font-reading` (serif). This isn't actually a bug against the *resolved* type system: per IDEOLOGY.md §5, all chrome — including headings — is Inter/sans now, so the **code is correct and the comment is stale**. Worth a one-line comment fix during implementation, not a behavior change.
 
-## Proposed contract: a named scale, not freeform sizes
+## RESOLVED 2026-09-23: a named scale, not freeform sizes
 
 Given 14+ raw size combinations don't represent 14 deliberate choices, they cluster naturally into three real use cases:
 
@@ -29,9 +29,9 @@ Given 14+ raw size combinations don't represent 14 deliberate choices, they clus
 
 Sizes within each level can still flex slightly by context (a `title` might be `text-3xl` on a narrow mobile viewport and `text-4xl` on wide desktop) — the point of the scale is naming the *three real roles*, not pinning one pixel value forever.
 
-## Proposed contract: Eyebrow becomes fully fixed, no size/opacity variants
+## RESOLVED 2026-09-23: Eyebrow becomes fully fixed, no size/opacity variants
 
-Unlike Heading, an eyebrow is inherently a small utility label — it doesn't need a scale, it needs **one** treatment used consistently. Proposing:
+Unlike Heading, an eyebrow is inherently a small utility label — it doesn't need a scale, it needs **one** treatment used consistently. Confirmed:
 
 - `font-ui`, uppercase, `text-xs`, `tracking-[0.25em]` (mobile's existing value — wider than Button's reconciled `0.16em` label tracking, and that's a legitimate typographic convention, not drift: smaller uppercase text conventionally gets *more* tracking to stay legible, the same reason a book's running-head is more widely spaced than its chapter titles)
 - `text-base-content/60` as the single canonical opacity — mobile's existing value, and close to web's own most common value (`/50`, 109 occurrences), so this is converging toward what already exists on both sides rather than inventing a new number

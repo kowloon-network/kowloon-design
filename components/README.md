@@ -21,6 +21,6 @@ Copy [`TEMPLATE.md`](TEMPLATE.md) for a new component. A contract has:
 
 ## Current state
 
-[`Button.md`](Button.md) — fully resolved. [`Field.md`](Field.md) — fully resolved (underline on both platforms, `field` token retired). [`Heading.md`](Heading.md) — audited and proposed, not yet confirmed by Josh. The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
+[`Button.md`](Button.md), [`Field.md`](Field.md), and [`Heading.md`](Heading.md) are all fully resolved. The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
 
 **Confirmed pattern across all three audits so far: web tends to have *zero* shared component where mobile has one clean one**, not just a drifted-apart pair. Field: 6 web files independently hand-rolling their own version, zero shared component. Heading/Eyebrow: worse — 75 web files reference heading styles directly and the eyebrow pattern alone appears 300+ times with 18 different opacity values, versus mobile's one shared component used at 9 call sites. Assume this is the default case for every remaining component, not the exception, until a given audit proves otherwise.

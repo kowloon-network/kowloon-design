@@ -22,9 +22,9 @@ components/
   TEMPLATE.md         — blank contract to copy for a new component
   Button.md           — fully resolved contract
   Field.md             — fully resolved contract (underline for both platforms)
-  Heading.md           — audited and proposed; awaiting confirmation
+  Heading.md           — fully resolved contract (named scale + fixed Eyebrow)
 reference/
-  style-guide.html   — generated snapshot: the full palette + Button + Field, rendered live, self-contained (open directly in a browser, no build step)
+  style-guide.html   — generated snapshot: the full palette + Button + Field + Heading/Eyebrow, rendered live, self-contained (open directly in a browser, no build step)
 ```
 
 ## Consuming this repo
@@ -41,8 +41,7 @@ Clone it next to the other repos: `~/Projects/kowloon/design`.
 
 ## Open items
 
-Every decision opened in `IDEOLOGY.md` §10 is resolved (palette, chrome/content typography, icons, Button contract), and Field is resolved too (underline on both platforms — see `components/Field.md`). `reference/style-guide.html` has the current state rendered live.
+Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Field, and Heading/Eyebrow — see each file in `components/` and `reference/style-guide.html` for the current state rendered live.
 
-- Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction. This now includes real implementation work beyond just Field itself: the `field` token was retired (see `tokens/palette.json`'s `_comment`), and it was used across 40+ mobile files (not just `Field.jsx`) for inputs, buttons, and row backgrounds. Every former `field` usage is a placeholder resolving to `base-100` for now — revisit each site individually when it's actually touched, not as a batch.
-- **`Heading.md`**: proposed contract (a three-level named scale for Heading, one fixed treatment for Eyebrow), not yet confirmed by Josh. Found the biggest gap yet — 75 web files reference headings directly, the eyebrow pattern appears 300+ times with 18 different opacity values, versus mobile's one clean shared component.
-- The component library itself: Button, Field, and (pending confirmation) Heading are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — and per `components/README.md`, assume web has *no* shared component at all until proven otherwise; that's been true for both components audited after Button.
+- Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction. This now includes real implementation work beyond docs: the `field` token was retired (see `tokens/palette.json`'s `_comment`) and used across 40+ mobile files beyond `Field.jsx`; every former usage is a placeholder resolving to `base-100` for now, to be revisited individually when each site is actually touched, not as a batch. Heading/Eyebrow implementation is similarly nontrivial — 75 web files and 300+ eyebrow call sites to migrate onto the new scale.
+- The component library itself: Button, Field, and Heading are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — and per `components/README.md`, assume web has *no* shared component at all until proven otherwise; that's been true for both components audited after Button.
