@@ -57,7 +57,9 @@ There is no longer a "reading-chrome" role distinct from either of the above —
 
 ## 6. Iconography
 
-**OPEN — needs sign-off:** web currently uses two different icon libraries inconsistently — FontAwesome in `PostComposer.jsx`, `lucide-react` in `NewPostPage.jsx`/`EditPostPage.jsx` (same icons, `faImage`/`faVideo`/`faMusic` vs `Image`/`Video`/`Music`, drawn by two different systems on different screens of the same flow). Recommend standardizing on **lucide-react** everywhere on web — it's the more recently adopted, more complete set, and matches the restrained line-icon style that already reads as "editorial" rather than "app." Mobile should use the same set (`lucide-react-native`) so an icon means the same weight/style on both platforms. This is a mechanical fix once decided — swap the FontAwesome imports in `PostComposer.jsx` for their lucide equivalents — but it's real UI work across real files, not just a docs change, so it's flagged here rather than just done.
+**RESOLVED 2026-09-23:** web currently uses two different icon libraries inconsistently — FontAwesome in `PostComposer.jsx`, `lucide-react` in `NewPostPage.jsx`/`EditPostPage.jsx` (same icons, `faImage`/`faVideo`/`faMusic` vs `Image`/`Video`/`Music`, drawn by two different systems on different screens of the same flow). Standardizing on **lucide-react** everywhere on web — it's the more recently adopted, more complete set, and matches the restrained line-icon style that already reads as "editorial" rather than "app." Mobile uses the same set (`lucide-react-native`) so an icon means the same weight/style on both platforms.
+
+This is a real code change, not a docs-only decision — swap the FontAwesome imports in `PostComposer.jsx` for their lucide equivalents — but it's a mechanical, low-ambiguity one, not a taste call, so it's resolved here rather than held open. Not yet executed in `kowloon-frontend` (this repo doesn't touch other repos' code, per the no-wiring-yet rule); tracked as implementation work for whenever the component pass reaches Button/composer icons.
 
 ## 7. Imagery
 
@@ -75,7 +77,7 @@ Interaction patterns, navigation structure, information architecture, and UI cop
 
 ## 10. Consolidated open decisions
 
-1. Give `accent` its own hex, distinct from `error`. (§4)
-2. Standardize icons on lucide-react / lucide-react-native, retire FontAwesome from web. (§6)
-3. Resolve `Button`'s variant/state/size drift per `components/Button.md` — recommend the *union*: keep `accent` (once #1 is resolved), add `loading` to web, add a `size` scale to mobile. Nothing gets removed, the contract gets completed.
-4. ~~Chrome typography~~ / ~~reader-controlled typography scope~~ / ~~web parity~~ / ~~titles in reader's font~~ — **RESOLVED**, including the visual check, see §5 and `tokens/typography.md`. Nothing left open in the type system.
+1. **Only real open item:** give `accent` its own hex, distinct from `error`. Three candidates under review (see visual comparison, shared 2026-09-23). (§4)
+2. ~~Icon library~~ — **RESOLVED**, lucide-react/lucide-react-native, both platforms. (§6)
+3. ~~Button contract~~ — **RESOLVED** (union of both platforms' capabilities; `accent` variant blocked on #1 above). (`components/Button.md`)
+4. ~~Type system~~ — **RESOLVED**, see §5 and `tokens/typography.md`.
