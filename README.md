@@ -16,11 +16,13 @@ This repo does not contain any renderable UI code. If you're looking for actual 
 IDEOLOGY.md          — design principles and rules; read this first
 tokens/
   palette.json      — color tokens (light + dark), moved here from @kowloon/client
-  typography.md      — font tokens; also documents a known drift between platforms (see below)
+  typography.md      — chrome vs. reader-controlled content typography, fully resolved
 components/
   README.md          — contract format + how to use it
   TEMPLATE.md         — blank contract to copy for a new component
-  Button.md           — first worked example, including an audit of current web/mobile drift
+  Button.md           — first worked example, fully resolved contract
+reference/
+  style-guide.html   — generated snapshot: the full palette + Button contract rendered live, self-contained (open directly in a browser, no build step)
 ```
 
 ## Consuming this repo
@@ -37,6 +39,7 @@ Clone it next to the other repos: `~/Projects/kowloon/design`.
 
 ## Open items
 
-See `IDEOLOGY.md` §10 for the consolidated list of design decisions awaiting sign-off (accent color, chrome typography, icon library, Button contract).
+Every decision opened in `IDEOLOGY.md` §10 is resolved (palette, chrome/content typography, icons, Button contract) — see `reference/style-guide.html` for the current state rendered live.
 
-- Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume `tokens/palette.json` from here instead of the copy in `client` — **on hold until the component library is fully specced**, not just the open items above.
+- Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction.
+- The component library itself: only Button is specced so far. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract.
