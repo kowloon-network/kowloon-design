@@ -1,0 +1,15 @@
+{
+  "name": "@kowloon/design",
+  "version": "0.1.0",
+  "description": "Non-platform-specific design source of truth for Kowloon: color/typography tokens and component contracts shared by the web frontend and mobile app.",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./tokens/palette.json": "./tokens/palette.json"
+  },
+  "keywords": [
+    "kowloon",
+    "design-system",
+    "design-tokens"
+  ]
+}
