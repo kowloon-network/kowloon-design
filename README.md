@@ -30,6 +30,7 @@ components/
   TypeFilter.md          — fully resolved contract (grayscale dropped, fade the type's own color instead)
   ReactButton.md          — fully resolved contract (fixes a real duplicate-count bug on web)
   Toast.md                — fully resolved contract (real feature gap: mobile has no toast system)
+  Timestamp.md             — fully resolved contract (one algorithm, not three; web's own replies/posts disagreed)
 reference/
   style-guide.html   — generated snapshot: the full palette + Button + Field + Heading/Eyebrow, rendered live, self-contained (open directly in a browser, no build step) — the rest not yet added, either too composite/data-driven for the token-swatch format or just not gotten to yet
 ```
@@ -48,7 +49,8 @@ Clone it next to the other repos: `~/Projects/kowloon/design`.
 
 ## Open items
 
-Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Field, Heading/Eyebrow, Card/EventCard, Avatar, Reply, Modal/Sheet, TypeFilter, ReactButton, and Toast. `reference/style-guide.html` covers Button/Field/Heading; the rest aren't added yet.
+Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Field, Heading/Eyebrow, Card/EventCard, Avatar, Reply, Modal/Sheet, TypeFilter, ReactButton, Toast, and Timestamp. `reference/style-guide.html` covers Button/Field/Heading; the rest aren't added yet.
 
 - Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction. Real implementation work is piling up behind that hold — see each component's own `.md` for its specific to-do list (token migrations, new features to build, dead code to delete, bugs to fix). It's substantial at this point; expect a real implementation project once the spec pass is done, not a quick find-and-replace. Toast in particular is a real feature build on mobile (a whole notification system, not a token tweak), largest single implementation item so far alongside Heading's 300+ call-site migration.
-- The component library itself: Button, Field, Heading, Card, Avatar, Reply, Modal, TypeFilter, ReactButton, and Toast are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — per `components/README.md`, check for *both* known failure modes (either platform can be the one with no shared component, or the one whose shared component has ballooned into an unmaintainable monolith), and actively look for real behavioral bugs/feature gaps, not just visual/structural drift.
+- The component library itself: Button, Field, Heading, Card, Avatar, Reply, Modal, TypeFilter, ReactButton, Toast, and Timestamp are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — per `components/README.md`, check for *both* known failure modes (either platform can be the one with no shared component, or the one whose shared component has ballooned into an unmaintainable monolith), and actively look for real behavioral bugs/feature gaps, not just visual/structural drift.
+- Also filed: [issue #69](https://github.com/kowloon-network/kowloon/issues/69), large media uploads need progress + background handling — a real gap found while discussing Toast, not part of this repo's scope but worth remembering it's out there.
