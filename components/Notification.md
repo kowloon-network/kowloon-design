@@ -10,16 +10,20 @@
 
 The real `NotifCard`/`NOTIF_ICONS`/`NOTIF_COLORS`/`FILTER_TYPES` in `NotificationsPage.jsx` all treat `follow` as a first-class, fully-supported type — its own icon (`UserPlus`), its own color (`text-success`), a filter chip, and dedicated routing logic ("*a follow (add-to-circle) points at the actor's profile*"). Mobile's `lib/notifications.js` has the opposite: `follow` is **explicitly absent**, with a comment citing the actual product policy by name — *"follow is intentionally absent — adding someone to a circle is a private act of curation in Kowloon, the followed person is never notified. See feedback_no_follow_notifications."*
 
-This is a real, well-documented product decision (private circle curation, target never notified — same policy that made `FollowButton.jsx` dead code in the AddToCircle audit). If that policy holds server-side, a `type: "follow"` notification can never actually be generated, which means all of web's `follow` handling here is unreachable in practice even though it isn't unreachable in the import graph — a subtler kind of dead code than the first finding. **Recommend removing `follow` from web's `NOTIF_ICONS`/`NOTIF_COLORS`/`FILTER_TYPES`/routing to match mobile — but confirm server-side first that `type: "follow"` is genuinely never emitted before deleting**, since this is inference from documented policy, not a direct check of the notification-creation code path.
+This is a real, well-documented product decision (private circle curation, target never notified — same policy that made `FollowButton.jsx` dead code in the AddToCircle audit). **RESOLVED 2026-09-24 — Josh's call: remove it from web.** Drop `follow` from `NOTIF_ICONS`/`NOTIF_COLORS`/`FILTER_TYPES`/routing to match mobile. One implementation-time sanity check, not a reversal of the decision: confirm server-side that `type: "follow"` is genuinely never emitted before deleting the routing branch specifically (the one piece of this that would silently misbehave, rather than just look wrong, if the assumption turned out incomplete) — the decision to remove stands either way.
 
 ## Found, the other direction: web has a `moderation` type mobile doesn't handle at all
 
 Web's `NOTIF_ICONS`/`NOTIF_COLORS` include `moderation` (`Flag` icon, `warning` color) — mobile's `NOTIF_TYPES` has no entry for it. Given real moderation-notification work shipped this cycle, a moderation notification arriving on mobile today would fall through to `NotificationRow`'s bare fallback (`{ label: notification?.type, Icon: null }`) — showing the literal string "moderation" with no icon, while web shows it properly. **Contract: add `moderation` to mobile's `NOTIF_TYPES`**, matching web's `Flag`/`warning` treatment.
 
-## OPEN — two real judgment calls, not resolved here
+## RESOLVED 2026-09-24: two independent signals, not one shape doing double duty
 
-- **Icon color: web rainbow-codes per type (primary/error/success/warning/secondary); mobile keeps every icon a single muted ink color.** Notifications are chrome, not content — IDEOLOGY.md §4 reserves decorative-but-meaningful color specifically for content-type wayfinding (post types), not general chrome. That argues for mobile's restraint. But a rainbow of notification-type colors is also a real, useful scanability aid in a list you're skimming for what matters. Not deciding this here — flagging both sides.
-- **Unread indicator shape: web uses a small square dot (positioned after the action buttons); mobile uses a full-height 3px left-edge bar.** Pick one. Leaning toward mobile's bar, since a left-edge accent bar is already the established unread/kind-indicator shape elsewhere (Toast's kind-colored bar), but not locking that in without confirmation.
+Josh's call splits what was previously conflated in each platform's single treatment:
+
+- **Unread state → the dot.** Web's existing small square dot becomes the standard on both platforms. Mobile's current left-edge bar-for-unread goes away — that role is now the dot's alone.
+- **Notification type → a left-edge color bar**, echoing the same pattern `Toast.md` already established (a left-edge bar colored by kind). This is genuinely new — neither platform's current code does exactly this; web currently colors the *icon* itself per type, mobile doesn't color-code type at all. **The icon itself stays a single muted ink color on both platforms** — the bar carries the color signal, so the icon doesn't also need to, which keeps the row from getting two competing color hits and matches mobile's existing restraint for the icon glyph specifically. Bar color mapping reuses web's existing `NOTIF_COLORS` (`reply`→primary, `react`→error, `moderation`→warning, `join_request`/`join_approved`→secondary, `new_post`→muted/base-content) minus `follow`, which is removed per the decision above.
+
+Net result: a row's left edge tells you *what kind* of notification it is at a glance (color bar), independent of a small dot telling you whether you've *seen* it yet — two signals, neither one overloaded to carry both meanings.
 
 ## Matched already — no action needed
 
@@ -33,5 +37,5 @@ Web has an explicit "mark read without navigating away" affordance (a hover-reve
 
 ## Tokens used
 
-- Palette: `primary` (unread indicator), `base-100`/`base-200`/`base-300` (surface, hover, dividers), plus whichever resolution the icon-color question lands on
+- Palette: `primary` (unread dot), `primary`/`error`/`warning`/`secondary`/`base-content` (type color bar, per `NOTIF_COLORS`), `base-100`/`base-200`/`base-300` (surface, hover, dividers), `base-content` at reduced opacity (muted icon, label, timestamp)
 - Typography: `font-ui` for chrome (label, timestamp, actions), the notification summary text itself is chrome too (platform-authored, not reader content) even though it's *about* content
