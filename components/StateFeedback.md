@@ -16,16 +16,15 @@ Sampled across admin screens, tab screens, and feed/circle/group/server screens 
 | Error message | `text-sm uppercase tracking-widest text-error`, plus a `border-l-4 border-error` accent | `text-base text-error`, sentence case, no border accent at all |
 | Retry action | "Try again" (underlined text link) | "Retry" (uppercase button, chrome-styled — inconsistently, since the message above it isn't) |
 
-## OPEN — needs Josh's call: chrome-label register or conversational register?
+## RESOLVED 2026-09-24: web's register, "Retry" for the wording
 
-This isn't a token-value drift, it's a real question about how the app *talks* to someone when there's nothing to show or something broke. Web's uppercase-label treatment matches the established chrome convention (Eyebrow, buttons, tags are all uppercase) — consistent with the rest of the system. Mobile's plain-sentence treatment is arguably better UX writing in the moment — "No circles yet. Create one first." reads as a person talking to you, not a system status label — even though it breaks from the uppercase convention. Not deciding this here. Worth noting mobile's retry button is already inconsistent with itself (uppercase button under a sentence-case message), so at minimum that internal mismatch should resolve one way or the other regardless of which register wins overall.
+Josh's call: web's chrome-label register wins — `text-sm uppercase tracking-widest`, consistent with Eyebrow/buttons/tags across the rest of the system. Mobile's empty/error text moves off its current plain-sentence treatment to match. Wording is a mix of both platforms' instincts, not a pure "web wins" — the retry action reads **"Retry"** (mobile's shorter wording), not web's "Try again." That also resolves mobile's internal inconsistency (an uppercase Retry button under a sentence-case message) automatically, since the message above it is uppercase now too.
 
-## Smaller, easy-to-resolve alongside the register question
+## Also adopted: web's error accent bar
 
-- Copy: "Try again" (web) vs. "Retry" (mobile) — pick one wording once the register question is settled.
-- Error accent: web's `border-l-4 border-error` treatment is a nice, legible "something's wrong" signal absent from every sampled mobile error state — worth adopting regardless of which text register wins, it's a structural affordance, not a register choice.
+`border-l-4 border-error` — a structural affordance, not a register choice, and it was missing from every sampled mobile error state. Both platforms get it.
 
-## Contract shape (once the register question is resolved)
+## Contract shape
 
 - `Spinner`: size variants (`sm`/`md`/`lg`), optional centered/full-width wrapper mode. Lowest-risk of the three — RN's native `ActivityIndicator` doesn't offer much surface for visual drift beyond size/color, so this is mostly "wrap it in one reusable component with consistent size tokens" rather than a real design decision.
 - `EmptyState`: message + optional action slot (matches web's `action` prop — an optional child element, e.g. a "Create one" button).
@@ -33,5 +32,5 @@ This isn't a token-value drift, it's a real question about how the app *talks* t
 
 ## Tokens used
 
-- Palette: `error` (message + accent), `primary` (spinner), `base-content` at reduced opacity (empty-state message)
-- Typography: `font-ui` — register (uppercase-chrome vs. sentence-conversational) is exactly the open question above
+- Palette: `error` (message + accent bar), `primary` (spinner), `base-content` at reduced opacity (empty-state message)
+- Typography: `font-ui`, uppercase, `tracking-widest` — chrome-label register, both platforms
