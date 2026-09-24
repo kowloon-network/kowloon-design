@@ -16,6 +16,8 @@ Web already has one clean, reused `Modal.jsx`. Mobile has **no shared bottom-she
 
 - **Web has an explicit header "Close" button; mobile relies only on backdrop-tap and the footer's Cancel button** — no equivalent explicit dismiss affordance in a sheet's header. Probably fine (bottom sheets conventionally work this way), but worth a deliberate check during implementation rather than assuming.
 - **Mobile's sheets use `animationType="fade"`**, not `"slide"` — the sheet is positioned at the bottom via layout, but it fades into place rather than sliding up from off-screen, which is the more idiomatic bottom-sheet transition. Small polish item, not resolved here.
+- **Web's `AddToCircleButton.jsx` doesn't use `Modal.jsx` at all** (found during that component's own audit — see `components/AddToCircle.md`) — it hand-rolls its own dialog with real behavior `Modal.jsx` lacks: ESC-to-close, body-scroll lock, and a more considered responsive layout (full-height on narrow viewports, centered `max-w-md` on wide ones vs. `Modal.jsx`'s fixed `max-w-lg`). Those three behaviors should probably become part of `Modal`'s own contract rather than staying a one-off improvement — not resolved here, flagging for whoever next touches this file.
+- **Mobile's `ProfileActions.jsx` overflow (Block/Mute) menu is a third overlay shape** — anchored near its trigger via measured position, not a centered `Modal` or a bottom `Sheet`. Possibly worth a named third primitive (`Menu`?) if web has an equivalent anchored-dropdown pattern elsewhere (untraced so far) — not resolved, just noted so it isn't lost.
 
 ## Tokens used
 
