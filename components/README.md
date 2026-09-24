@@ -21,7 +21,9 @@ Copy [`TEMPLATE.md`](TEMPLATE.md) for a new component. A contract has:
 
 ## Current state
 
-[`Button.md`](Button.md), [`Field.md`](Field.md), [`Heading.md`](Heading.md), [`Card.md`](Card.md), [`Avatar.md`](Avatar.md), [`Reply.md`](Reply.md), and [`Modal.md`](Modal.md) are all fully resolved. The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
+[`Button.md`](Button.md), [`Field.md`](Field.md), [`Heading.md`](Heading.md), [`Card.md`](Card.md), [`Avatar.md`](Avatar.md), [`Reply.md`](Reply.md), [`Modal.md`](Modal.md), and [`TypeFilter.md`](TypeFilter.md) are all fully resolved. The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
+
+**TypeFilter is the cleanest audit in the series** — web's own code comment says it was already "converged with the mobile app's TypeFilter," and the solo-first-tap logic is implemented identically on both platforms. Only real difference: inactive icons went grayscale on web vs. a faded tint of the type's own color on mobile. Resolved on mobile's approach — grayscale erases the semantic color-coding signal §4 depends on, even in the faded state. Good reminder that not every audit surfaces a big structural problem; sometimes the answer really is "mostly fine, one small thing."
 
 **Modal/Sheet flipped the usual pattern — this time it's mobile duplicating, not web.** Web has one clean `Modal.jsx` (centered dialog); mobile has no shared bottom-sheet primitive at all, with at least a dozen files hand-rolling the same backdrop chrome independently. The shape difference itself (centered dialog vs. bottom sheet) is a legitimate platform convention, kept as two differently-named primitives (`Modal` / `Sheet`) rather than forced into one — but mobile needs the same "extract a shared component" fix Field and Heading needed on web. Confirms the standing rule: check *both* platforms for missing extraction, never assume it's always the same one.
 
