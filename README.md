@@ -26,8 +26,9 @@ components/
   Card.md              — fully resolved contract (PostCard/EventCard)
   Avatar.md             — fully resolved contract (circular for people, hex for Circle/Group)
   Reply.md              — fully resolved contract (hairline rule kept, deliberately unlike Card)
+  Modal.md              — fully resolved contract (Modal on web, Sheet on mobile — different shapes, kept)
 reference/
-  style-guide.html   — generated snapshot: the full palette + Button + Field + Heading/Eyebrow, rendered live, self-contained (open directly in a browser, no build step) — Card and Avatar not yet added, too composite/data-driven for the token-swatch format the others use
+  style-guide.html   — generated snapshot: the full palette + Button + Field + Heading/Eyebrow, rendered live, self-contained (open directly in a browser, no build step) — Card, Avatar, Reply, Modal not yet added, too composite/data-driven for the token-swatch format the others use
 ```
 
 ## Consuming this repo
@@ -44,7 +45,7 @@ Clone it next to the other repos: `~/Projects/kowloon/design`.
 
 ## Open items
 
-Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Field, Heading/Eyebrow, Card/EventCard, Avatar, and Reply. `reference/style-guide.html` covers Button/Field/Heading; Card, Avatar, and Reply are too composite/data-driven for that format.
+Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Field, Heading/Eyebrow, Card/EventCard, Avatar, Reply, and Modal/Sheet. `reference/style-guide.html` covers Button/Field/Heading; the rest are too composite/data-driven for that format.
 
-- Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction. Real implementation work is piling up behind that hold, not just docs: `field` retired across 40+ mobile files (placeholder resolving to `base-100` per-site, not yet touched); Heading/Eyebrow's new scale needs migrating onto 75 web files and 300+ eyebrow call sites; Card needs a real cross-platform typography-boundary bug fixed, a brand-new capped media grid built on both platforms, web's Event calendar-block ported to mobile from scratch, and web's action-bar hairline rules removed (`border-t`/`border-b` in `PostCard.jsx` and `EventCard.jsx`, precisely located); Avatar needs web's drop shadow removed and a shared `HexAvatar`/`CircleAvatar`/`GroupAvatar` built on web to replace four duplicated inline usages; Reply needs reader-controlled typography wired into reply bodies on both platforms (currently hardcoded/static on both), web's dead `ReplyList.jsx` deleted, and mobile needs the new inter-reply hairline rule added.
-- The component library itself: Button, Field, Heading, Card, Avatar, and Reply are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — per `components/README.md`, check for *both* known failure modes (web has no shared component at all; or a shared component exists but has ballooned into an unmaintainable monolith with an internal duplicate) rather than assuming either is the default.
+- Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction. Real implementation work is piling up behind that hold — see each component's own `.md` for its specific to-do list (token migrations, new features to build, dead code to delete, bugs to fix). It's substantial at this point; expect a real implementation project once the spec pass is done, not a quick find-and-replace.
+- The component library itself: Button, Field, Heading, Card, Avatar, Reply, and Modal are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — per `components/README.md`, check for *both* known failure modes (either platform can be the one with no shared component, or the one whose shared component has ballooned into an unmaintainable monolith) rather than assuming a pattern from prior audits repeats.
