@@ -28,8 +28,9 @@ components/
   Reply.md              — fully resolved contract (hairline rule kept, deliberately unlike Card)
   Modal.md              — fully resolved contract (Modal on web, Sheet on mobile — different shapes, kept)
   TypeFilter.md          — fully resolved contract (grayscale dropped, fade the type's own color instead)
+  ReactButton.md          — fully resolved contract (fixes a real duplicate-count bug on web)
 reference/
-  style-guide.html   — generated snapshot: the full palette + Button + Field + Heading/Eyebrow, rendered live, self-contained (open directly in a browser, no build step) — Card, Avatar, Reply, Modal, TypeFilter not yet added, either too composite/data-driven for the token-swatch format or just not gotten to yet
+  style-guide.html   — generated snapshot: the full palette + Button + Field + Heading/Eyebrow, rendered live, self-contained (open directly in a browser, no build step) — the rest not yet added, either too composite/data-driven for the token-swatch format or just not gotten to yet
 ```
 
 ## Consuming this repo
@@ -46,7 +47,7 @@ Clone it next to the other repos: `~/Projects/kowloon/design`.
 
 ## Open items
 
-Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Field, Heading/Eyebrow, Card/EventCard, Avatar, Reply, Modal/Sheet, and TypeFilter. `reference/style-guide.html` covers Button/Field/Heading; the rest aren't added yet.
+Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Field, Heading/Eyebrow, Card/EventCard, Avatar, Reply, Modal/Sheet, TypeFilter, and ReactButton. `reference/style-guide.html` covers Button/Field/Heading; the rest aren't added yet.
 
 - Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction. Real implementation work is piling up behind that hold — see each component's own `.md` for its specific to-do list (token migrations, new features to build, dead code to delete, bugs to fix). It's substantial at this point; expect a real implementation project once the spec pass is done, not a quick find-and-replace.
-- The component library itself: Button, Field, Heading, Card, Avatar, Reply, Modal, and TypeFilter are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — per `components/README.md`, check for *both* known failure modes (either platform can be the one with no shared component, or the one whose shared component has ballooned into an unmaintainable monolith) rather than assuming a pattern from prior audits repeats.
+- The component library itself: Button, Field, Heading, Card, Avatar, Reply, Modal, TypeFilter, and ReactButton are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — per `components/README.md`, check for *both* known failure modes (either platform can be the one with no shared component, or the one whose shared component has ballooned into an unmaintainable monolith), and actively look for real behavioral bugs like ReactButton's duplicate count, not just visual/structural drift.
