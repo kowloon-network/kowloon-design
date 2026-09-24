@@ -21,7 +21,9 @@ Copy [`TEMPLATE.md`](TEMPLATE.md) for a new component. A contract has:
 
 ## Current state
 
-[`Button.md`](Button.md), [`Field.md`](Field.md), [`Heading.md`](Heading.md), and [`Card.md`](Card.md) are all fully resolved. The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
+[`Button.md`](Button.md), [`Field.md`](Field.md), [`Heading.md`](Heading.md), [`Card.md`](Card.md), and [`Avatar.md`](Avatar.md) are all fully resolved. The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
+
+**Avatar's audit found a real conflict with IDEOLOGY.md itself, not just drift** — both platforms had already, independently, made user avatars circular, contradicting the no-rounded-corners rule as originally written (which listed avatars with no exception). Confirmed as a deliberate, permanent exception rather than a bug: IDEOLOGY.md §2 rule 1 is now amended. Worth remembering for future audits — when both platforms agree with each other and disagree with this doc, that's real signal the doc missed something, not necessarily two platforms drifting the same wrong way.
 
 **The "web has zero shared component" pattern from Field and Heading isn't universal** — Card broke it. Both platforms have a real `PostCard`, just structured very differently: web decomposes into five components (`PostMeta`/`PostBody`/`PostReacts`/`PostToolbar`/`EventCard`), mobile is one 413-line file handling every post type inline, plus a second unshared copy of the same rendering logic in mobile's own separate `PostBody.jsx` (used only by the detail screen). Worth checking both failure modes — "no shared component" and "shared component that's ballooned into a monolith with an internal duplicate" — on every future audit, not just the first one.
 

@@ -24,8 +24,9 @@ components/
   Field.md             — fully resolved contract (underline for both platforms)
   Heading.md           — fully resolved contract (named scale + fixed Eyebrow)
   Card.md              — fully resolved contract (PostCard/EventCard)
+  Avatar.md             — fully resolved contract (circular for people, hex for Circle/Group)
 reference/
-  style-guide.html   — generated snapshot: the full palette + Button + Field + Heading/Eyebrow, rendered live, self-contained (open directly in a browser, no build step) — Card not yet added, it's too composite/data-driven for the token-swatch format the others use
+  style-guide.html   — generated snapshot: the full palette + Button + Field + Heading/Eyebrow, rendered live, self-contained (open directly in a browser, no build step) — Card and Avatar not yet added, too composite/data-driven for the token-swatch format the others use
 ```
 
 ## Consuming this repo
@@ -42,7 +43,7 @@ Clone it next to the other repos: `~/Projects/kowloon/design`.
 
 ## Open items
 
-Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Field, Heading/Eyebrow, and Card/EventCard — see each file in `components/` for the current state (`reference/style-guide.html` covers the first three; Card is too composite for that format).
+Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Field, Heading/Eyebrow, Card/EventCard, and Avatar — see each file in `components/` for the current state (`reference/style-guide.html` covers the first three; Card and Avatar are too composite for that format).
 
-- Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction. Real implementation work is piling up behind that hold, not just docs: `field` retired across 40+ mobile files (placeholder resolving to `base-100` per-site, not yet touched); Heading/Eyebrow's new scale needs migrating onto 75 web files and 300+ eyebrow call sites; Card needs a real cross-platform typography-boundary bug fixed, a brand-new capped media grid built on both platforms, web's Event calendar-block ported to mobile from scratch, and mobile's action-bar border removed (exact current source not yet located, see `components/Card.md`).
-- The component library itself: Button, Field, Heading, and Card are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — per `components/README.md`, check for *both* known failure modes (web has no shared component at all; or a shared component exists but has ballooned into an unmaintainable monolith with an internal duplicate) rather than assuming either is the default.
+- Rewiring `@kowloon/client`, `kowloon-frontend`, and `kowloon-mobile` to actually consume this repo instead of the copy in `client` — **on hold until the component library is fully specced**, per Josh's instruction. Real implementation work is piling up behind that hold, not just docs: `field` retired across 40+ mobile files (placeholder resolving to `base-100` per-site, not yet touched); Heading/Eyebrow's new scale needs migrating onto 75 web files and 300+ eyebrow call sites; Card needs a real cross-platform typography-boundary bug fixed, a brand-new capped media grid built on both platforms, web's Event calendar-block ported to mobile from scratch, and web's action-bar hairline rules removed (`border-t`/`border-b` in `PostCard.jsx` and `EventCard.jsx`, precisely located); Avatar needs web's drop shadow removed and a shared `HexAvatar`/`CircleAvatar`/`GroupAvatar` built on web to replace four duplicated inline usages.
+- The component library itself: Button, Field, Heading, Card, and Avatar are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — per `components/README.md`, check for *both* known failure modes (web has no shared component at all; or a shared component exists but has ballooned into an unmaintainable monolith with an internal duplicate) rather than assuming either is the default.
