@@ -21,7 +21,9 @@ Copy [`TEMPLATE.md`](TEMPLATE.md) for a new component. A contract has:
 
 ## Current state
 
-[`Button.md`](Button.md), [`Field.md`](Field.md), [`Heading.md`](Heading.md), [`Card.md`](Card.md), and [`Avatar.md`](Avatar.md) are all fully resolved. The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
+[`Button.md`](Button.md), [`Field.md`](Field.md), [`Heading.md`](Heading.md), [`Card.md`](Card.md), and [`Avatar.md`](Avatar.md) are all fully resolved. [`Reply.md`](Reply.md) is mostly resolved, one open question (see below). The rest of the component library hasn't been speced yet; that's the actual work of the redesign pass, not something to backfill wholesale here.
+
+**Reply's audit found the two platforms already agree more than they disagree** — a first for this series. Both have one real `Reply` component with genuinely similar 2-level nesting/indent logic already. The real findings were a gap (reply bodies aren't wired to reader-controlled typography on either platform, despite that being explicitly in scope per the resolved typography boundary) and dead code (`ReplyList.jsx` on web is unused anywhere and would be broken if it were — it doesn't match the shape `buildReplyTree` actually produces). One open item: whether the hairline rule between reply rows should be removed the same way it just was on `PostCard`/`EventCard`, or whether a threaded conversation is different enough from a feed of independent posts to keep it.
 
 **Avatar's audit found a real conflict with IDEOLOGY.md itself, not just drift** — both platforms had already, independently, made user avatars circular, contradicting the no-rounded-corners rule as originally written (which listed avatars with no exception). Confirmed as a deliberate, permanent exception rather than a bug: IDEOLOGY.md §2 rule 1 is now amended. Worth remembering for future audits — when both platforms agree with each other and disagree with this doc, that's real signal the doc missed something, not necessarily two platforms drifting the same wrong way.
 
