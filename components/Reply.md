@@ -16,9 +16,9 @@ Byline (author name + timestamp) correctly stays fixed chrome on both platforms 
 
 It's unused anywhere in the web codebase (grep confirms nothing imports it) — and it would actually be broken if something did: it expects a flat array of raw replies and renders each through `PostCard`, but the real reply-tree builder (`lib/replyTree.js`'s `buildReplyTree`, shared by `PostPage.jsx` and `ReplyModal.jsx`) returns `{ reply, children }` tree nodes, and the actual live rendering path is `PostPage.jsx` calling `<Reply>` directly with proper nesting. Not part of this contract to fix — flagging for deletion during implementation, since dead code that no longer matches the real data shape is worth removing, not maintaining.
 
-## OPEN — needs Josh's call: should the hairline rule between reply rows also go?
+## RESOLVED 2026-09-24: keep the hairline rule between reply rows
 
-Web's `Reply.jsx` has `border-b border-base-300 last:border-b-0` separating consecutive replies — the same kind of hairline rule just removed from `PostCard`/`EventCard` for reading as cluttered. Not assuming the same call applies here without asking: a threaded reply list is arguably a different context than a feed of independent posts (tighter visual grouping might read as "one conversation" rather than clutter), but it might also be the same problem. Flagging rather than deciding.
+Josh's call: tighter grouping, unlike `PostCard`/`EventCard`. Web's existing `border-b border-base-300 last:border-b-0` on `Reply.jsx` stays as the reference treatment — mobile should adopt the equivalent (currently `Reply.jsx` on mobile has no such rule between sibling replies at all, just the `py-4` spacing from each row's own padding, so this is new for mobile rather than a removal). A threaded conversation reads as one continuous unit; a feed of independent posts doesn't, and that's the actual distinction driving the two different calls, not an inconsistency.
 
 ## Variants / States
 
