@@ -58,3 +58,13 @@ Every decision opened in `IDEOLOGY.md` §10 is resolved, and so are Button, Fiel
 - The component library itself: Button, Field, Heading, Card, Avatar, Reply, Modal, TypeFilter, ReactButton, Toast, Timestamp, AddToCircle, Notification, and StateFeedback are specced. Everything else in `kowloon-frontend/src/components` and `kowloon-mobile/src/components` still needs a contract — per `components/README.md`, check for *both* known failure modes (either platform can be the one with no shared component, or the one whose shared component has ballooned into an unmaintainable monolith), and actively look for real behavioral bugs/feature gaps/dead code, not just visual/structural drift.
 - Also filed: [issue #69](https://github.com/kowloon-network/kowloon/issues/69), large media uploads need progress + background handling — a real gap found while discussing Toast, not part of this repo's scope but worth remembering it's out there.
 - Also filed: [issue #69](https://github.com/kowloon-network/kowloon/issues/69), large media uploads need progress + background handling — a real gap found while discussing Toast, not part of this repo's scope but worth remembering it's out there.
+
+## License
+
+Licensed under the [Apache License, Version 2.0](LICENSE).
+
+You may use, modify and redistribute this software, including commercially
+and in closed-source products, provided you retain the copyright and licence
+notices, state any changes you made, and include the `NOTICE` file. The
+licence also grants an explicit patent licence from contributors, which
+terminates for anyone who brings a patent claim against the project.
